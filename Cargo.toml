@@ -1,0 +1,45 @@
+[package]
+name = "kafka-rocksdb"
+version = "0.0.1-alpha.0"
+authors = ["Michael Krolikowski <mkroli@yahoo.de>"]
+edition = "2018"
+
+[profile.release]
+opt-level = 'z'
+lto = true
+codegen-units = 1
+
+[features]
+schema_registry = ["reqwest", "avro-rs", "schema_registry_converter"]
+
+[[example]]
+name = "dump_db"
+required-features = ["schema_registry"]
+
+[[example]]
+name = "producer"
+required-features = ["schema_registry"]
+
+[dependencies]
+thiserror = "1"
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }
+futures = "0.3"
+log = "0.4"
+atty = "0.2"
+chrono = "0.4"
+syslog = "4"
+fern = { version = "0.6", features = ["syslog-4"] }
+clap = "3.0.0-beta.2"
+config = "0.10"
+rdkafka = { git = "https://github.com/fede1024/rust-rdkafka.git", rev = "8da55e2c58752d75babb800edc0162b519dd84e2", features = ["tokio", "cmake-build"] } # TODO: ssl
+pin-project = "1"
+rocksdb = { version = "0.15", default-features = false, features = ["snappy"] }
+hex-slice = "0.1"
+prometheus = "0.11"
+lazy_static = "1"
+prometheus-static-metric = "0.5"
+hyper = { version = "0.14", features = ["server", "tcp", "http1"] }
+reqwest = { version = "0.11", features = ["blocking"], optional = true }
+avro-rs = { version = "0.11", optional = true }
+schema_registry_converter = { version = "2", default-features = false, features = ["avro", "blocking"], optional = true }

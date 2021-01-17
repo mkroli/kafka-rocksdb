@@ -1,0 +1,12 @@
+FROM rust:1.49-alpine3.12 as builder
+RUN rustup component add rustfmt
+RUN apk add --no-cache musl-dev cmake make g++ llvm-dev clang-static clang-libs linux-headers
+WORKDIR /src
+COPY . .
+RUN RUSTFLAGS=-Ctarget-feature=-crt-static cargo install --path .
+RUN strip /usr/local/cargo/bin/kafka-rocksdb
+
+FROM alpine
+RUN apk add --no-cache libstdc++
+COPY --from=builder /usr/local/cargo/bin/kafka-rocksdb /usr/bin/kafka-rocksdb
+ENTRYPOINT ["/usr/bin/kafka-rocksdb"]

@@ -1,0 +1,11 @@
+topics = ["test"]
+
+[kafka]
+"group.id" = "kafka_rocksdb"
+"bootstrap.servers" = "127.0.0.1:9092"
+
+[rocksdb]
+"directory" = "db"
+
+[prometheus]
+"address" = "0.0.0.0:9184"
