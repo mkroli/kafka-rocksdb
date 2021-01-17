@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-use serde::Deserialize;
 use crate::error::KafkaRocksDBResult;
 use config::FileFormat;
+use serde::Deserialize;
 use std::collections::BTreeMap;
 
 #[derive(Debug, Deserialize)]
@@ -59,7 +59,11 @@ impl Settings {
     pub fn read(filename: &str) -> KafkaRocksDBResult<Settings> {
         let kafka_settings = Settings::delete_kafka_environment_settings();
         let mut config = config::Config::default();
-        config.merge(config::File::with_name(filename).format(FileFormat::Toml).required(false))?;
+        config.merge(
+            config::File::with_name(filename)
+                .format(FileFormat::Toml)
+                .required(false),
+        )?;
         config.merge(config::Environment::with_prefix("KR").separator("_"))?;
         let mut settings: Settings = config.try_into()?;
         settings.override_kafka_settings(kafka_settings);

@@ -28,7 +28,6 @@ use crate::logging::setup_logger;
 use crate::prometheus_exporter::PrometheusExporter;
 use crate::settings::Settings;
 
-mod settings;
 mod consumer;
 mod database;
 mod error;
@@ -37,6 +36,7 @@ mod kafka_stream_ext;
 mod logging;
 mod metrics;
 mod prometheus_exporter;
+mod settings;
 
 #[derive(Clap, Debug)]
 #[clap(author, about, version)]
@@ -44,9 +44,9 @@ struct CommandLineOptions {
     #[clap(short = 'l', long = "log-to-stdout")]
     log_to_stdout: bool,
     #[clap(
-    value_name = "configuration file",
-    long_about = "Configuration file to use",
-    required = true
+        value_name = "configuration file",
+        long_about = "Configuration file to use",
+        required = true
     )]
     config_file: String,
 }

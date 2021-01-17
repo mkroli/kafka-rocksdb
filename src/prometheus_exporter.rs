@@ -21,8 +21,8 @@ use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Method, Request, Response, Server, StatusCode};
 use prometheus::{Encoder, TextEncoder};
 
-use crate::settings::Settings;
 use crate::error::KafkaRocksDBResult;
+use crate::settings::Settings;
 
 type GenericError = Box<dyn Error + Send + Sync>;
 type GenericResult<T> = std::result::Result<T, GenericError>;

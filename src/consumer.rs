@@ -18,8 +18,8 @@ use rdkafka::config::RDKafkaLogLevel;
 use rdkafka::consumer::{Consumer, DefaultConsumerContext, MessageStream, StreamConsumer};
 use rdkafka::ClientConfig;
 
-use crate::settings::Settings;
 use crate::error::KafkaRocksDBResult;
+use crate::settings::Settings;
 
 pub struct KafkaConsumer {
     consumer: StreamConsumer,

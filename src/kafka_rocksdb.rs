@@ -17,11 +17,11 @@
 use futures::StreamExt;
 use rdkafka::Message;
 
-use crate::settings::Settings;
 use crate::consumer::KafkaConsumer;
 use crate::database::Database;
 use crate::error::KafkaRocksDBResult;
 use crate::kafka_stream_ext::KafkaStreamExt;
+use crate::settings::Settings;
 
 pub struct KafkaRocksDB {
     consumer: KafkaConsumer,

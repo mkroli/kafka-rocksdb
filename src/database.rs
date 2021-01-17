@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-use crate::settings::Settings;
 use crate::error::{KafkaRocksDBError, KafkaRocksDBResult};
+use crate::settings::Settings;
 use rocksdb::DB;
 
 pub struct Database {
