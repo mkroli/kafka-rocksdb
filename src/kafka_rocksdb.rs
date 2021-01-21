@@ -22,6 +22,7 @@ use crate::database::Database;
 use crate::error::KafkaRocksDBResult;
 use crate::kafka_stream_ext::KafkaStreamExt;
 use crate::settings::Settings;
+use crate::stream_signal_ext::StreamSignalExt;
 
 pub struct KafkaRocksDB {
     consumer: KafkaConsumer,
@@ -55,8 +56,15 @@ impl KafkaRocksDB {
                 }
             })
             .try_store_offsets(&self.consumer)
+            .until_termination()
             .for_each(|_| async {})
             .await;
         Ok(())
+    }
+}
+
+impl Drop for KafkaRocksDB {
+    fn drop(&mut self) {
+        log::info!("Shutting down");
     }
 }
