@@ -33,7 +33,7 @@ topics = ["test"]
 ## Usage
 ```
 % target/release/kafka-rocksdb --help
-kafka-rocksdb 0.1.0
+kafka-rocksdb 0.2.0
 Michael Krolikowski <mkroli@yahoo.de>
 
 
