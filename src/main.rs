@@ -37,6 +37,8 @@ mod logging;
 mod metrics;
 mod prometheus_exporter;
 mod settings;
+mod signals;
+mod stream_signal_ext;
 
 #[derive(Clap, Debug)]
 #[clap(author, about, version)]

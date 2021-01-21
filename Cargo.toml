@@ -23,7 +23,7 @@ required-features = ["schema_registry"]
 [dependencies]
 thiserror = "1"
 serde = { version = "1", features = ["derive"] }
-tokio = { version = "1", features = ["rt-multi-thread", "macros", "time"] }
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "time", "signal"] }
 futures = "0.3"
 log = "0.4"
 atty = "0.2"
