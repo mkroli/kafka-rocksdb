@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 
-use prometheus::IntCounter;
+use lazy_static::lazy_static;
+use prometheus::{opts, register_int_counter, IntCounter};
 
 lazy_static! {
     pub static ref MESSAGES: IntCounter =

@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-extern crate clap;
-#[macro_use]
-extern crate lazy_static;
-#[macro_use]
-extern crate prometheus;
-
 use clap::Parser;
 use futures::{future::FutureExt, pin_mut, select};
 
