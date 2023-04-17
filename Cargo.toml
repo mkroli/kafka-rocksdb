@@ -30,9 +30,9 @@ atty = "0.2"
 chrono = "0.4"
 syslog = "4"
 fern = { version = "0.6", features = ["syslog-4"] }
-clap = "3.0.0-beta.2"
+clap = { version = "3", features = ["derive"] }
 config = "0.10"
-rdkafka = { git = "https://github.com/fede1024/rust-rdkafka.git", rev = "8da55e2c58752d75babb800edc0162b519dd84e2", features = ["tokio", "cmake-build"] } # TODO: ssl
+rdkafka = { version = "0.24", features = ["tokio", "cmake-build"] } # TODO: ssl
 pin-project = "1"
 rocksdb = { version = "0.15", default-features = false, features = ["snappy"] }
 hex-slice = "0.1"

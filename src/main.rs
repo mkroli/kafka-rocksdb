@@ -20,7 +20,7 @@ extern crate lazy_static;
 #[macro_use]
 extern crate prometheus;
 
-use clap::Clap;
+use clap::Parser;
 use futures::{future::FutureExt, pin_mut, select};
 
 use crate::error::KafkaRocksDBResult;
@@ -40,14 +40,14 @@ mod settings;
 mod signals;
 mod stream_signal_ext;
 
-#[derive(Clap, Debug)]
+#[derive(Parser, Debug)]
 #[clap(author, about, version)]
 struct CommandLineOptions {
     #[clap(short = 'l', long = "log-to-stdout")]
     log_to_stdout: bool,
     #[clap(
         value_name = "configuration file",
-        long_about = "Configuration file to use",
+        help = "Configuration file to use",
         required = true
     )]
     config_file: String,
