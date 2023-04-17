@@ -22,8 +22,8 @@ use pin_project::pin_project;
 use rdkafka::consumer::Consumer;
 use rdkafka::consumer::StreamConsumer;
 use rdkafka::error::KafkaError;
-use rdkafka::Message;
 use rdkafka::message::BorrowedMessage;
+use rdkafka::Message;
 
 #[pin_project]
 pub struct StoreOffsets<'a, T>
