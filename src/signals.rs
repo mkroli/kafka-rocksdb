@@ -40,7 +40,7 @@ impl Stream for Signals {
         for signal in self.signals.iter_mut() {
             let s = signal.recv();
             pin_mut!(s);
-            if let Poll::Ready(_) = s.poll(cx) {
+            if s.poll(cx).is_ready() {
                 return Poll::Ready(Some(()));
             }
         }

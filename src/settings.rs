@@ -43,7 +43,7 @@ impl Settings {
         for (ref k, v) in std::env::vars() {
             if let Some(key) = k.strip_prefix("KR_KAFKA_") {
                 std::env::remove_var(k);
-                let key = key.replace("_", ".").to_lowercase();
+                let key = key.replace('_', ".").to_lowercase();
                 kafka_settings.insert(key, v);
             }
         }
