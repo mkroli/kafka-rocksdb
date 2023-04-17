@@ -22,6 +22,7 @@ use pin_project::pin_project;
 use rdkafka::consumer::Consumer;
 use rdkafka::consumer::StreamConsumer;
 use rdkafka::error::KafkaError;
+use rdkafka::Message;
 use rdkafka::message::BorrowedMessage;
 
 #[pin_project]
@@ -50,7 +51,7 @@ macro_rules! poll_store_offsets {
             let this = self.project();
             let polled = this.stream.poll_next(cx);
             if let Poll::Ready(Some(Ok(ref msg))) = polled {
-                if let Err(e) = this.consumer.store_offset(msg) {
+                if let Err(e) = this.consumer.store_offset(msg.topic(), msg.partition(), msg.offset()) {
                     log::warn!("Failed to store offset: {}", e);
                     $(
                         $return_error

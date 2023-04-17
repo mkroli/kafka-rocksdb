@@ -46,8 +46,8 @@ impl KafkaConsumer {
         Ok(KafkaConsumer { consumer })
     }
 
-    pub fn start(&self) -> MessageStream<DefaultConsumerContext> {
-        self.consumer.start()
+    pub fn start(&self) -> MessageStream {
+        self.consumer.stream()
     }
 }
 
