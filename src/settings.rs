@@ -58,14 +58,15 @@ impl Settings {
 
     pub fn read(filename: &str) -> KafkaRocksDBResult<Settings> {
         let kafka_settings = Settings::delete_kafka_environment_settings();
-        let mut config = config::Config::default();
-        config.merge(
-            config::File::with_name(filename)
-                .format(FileFormat::Toml)
-                .required(false),
-        )?;
-        config.merge(config::Environment::with_prefix("KR").separator("_"))?;
-        let mut settings: Settings = config.try_into()?;
+        let config = config::Config::builder()
+            .add_source(
+                config::File::with_name(filename)
+                    .format(FileFormat::Toml)
+                    .required(false),
+            )
+            .add_source(config::Environment::with_prefix("KR").separator("_"))
+            .build()?;
+        let mut settings: Settings = config.try_deserialize()?;
         settings.override_kafka_settings(kafka_settings);
         Ok(settings)
     }
