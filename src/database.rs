@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-use crate::error::{KafkaRocksDBError, KafkaRocksDBResult};
 use crate::settings::Settings;
+use anyhow::{anyhow, Result};
 use rocksdb::DB;
 
 pub struct Database {
@@ -23,7 +23,7 @@ pub struct Database {
 }
 
 impl Database {
-    pub fn new(config: &Settings) -> KafkaRocksDBResult<Database> {
+    pub fn new(config: &Settings) -> Result<Database> {
         let mut options = rocksdb::Options::default();
         options.create_if_missing(true);
         options.create_missing_column_families(true);
@@ -39,11 +39,11 @@ impl Database {
         Ok(Database { db })
     }
 
-    pub fn update(&self, topic: &str, key: &[u8], value: Option<&[u8]>) -> KafkaRocksDBResult<()> {
+    pub fn update(&self, topic: &str, key: &[u8], value: Option<&[u8]>) -> Result<()> {
         let cf = self
             .db
             .cf_handle(topic)
-            .ok_or_else(|| KafkaRocksDBError::ColumnFamilyNotFound(topic.to_string()))?;
+            .ok_or_else(|| anyhow!("RocksDB column family not found"))?;
         match value {
             Some(value) => self.db.put_cf(cf, key, value)?,
             None => self.db.delete_cf(cf, key)?,

@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
+use anyhow::Result;
 use clap::Parser;
-use futures::{future::FutureExt, pin_mut, select};
+use futures::future::FutureExt;
 
-use crate::error::KafkaRocksDBResult;
 use crate::logging::setup_logger;
 use crate::prometheus_exporter::PrometheusExporter;
 use crate::settings::Settings;
 
 mod consumer;
 mod database;
-mod error;
 mod kafka_rocksdb;
 mod kafka_stream_ext;
 mod logging;
@@ -37,8 +36,6 @@ mod stream_signal_ext;
 #[derive(Parser, Debug)]
 #[clap(author, about, version)]
 struct CommandLineOptions {
-    #[clap(short = 'l', long = "log-to-stdout")]
-    log_to_stdout: bool,
     #[clap(
         value_name = "configuration file",
         help = "Configuration file to use",
@@ -48,9 +45,9 @@ struct CommandLineOptions {
 }
 
 #[tokio::main]
-async fn main() -> KafkaRocksDBResult<()> {
+async fn main() -> Result<()> {
     let opts = CommandLineOptions::parse();
-    setup_logger(opts.log_to_stdout)?;
+    setup_logger()?;
     let settings = Settings::read(&opts.config_file)?;
 
     metrics::initialize_metrics();
@@ -59,8 +56,7 @@ async fn main() -> KafkaRocksDBResult<()> {
     let kafka_rocksdb = kafka_rocksdb::KafkaRocksDB::new(&settings)?;
     let kafka_rocksdb = kafka_rocksdb.start().fuse();
 
-    pin_mut!(prometheus, kafka_rocksdb);
-    select!(
+    tokio::select!(
         result = prometheus => result?,
         result = kafka_rocksdb => result?,
     );

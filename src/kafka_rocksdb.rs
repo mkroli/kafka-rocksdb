@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
+use anyhow::Result;
 use futures::StreamExt;
 use rdkafka::Message;
 
 use crate::consumer::KafkaConsumer;
 use crate::database::Database;
-use crate::error::KafkaRocksDBResult;
 use crate::kafka_stream_ext::KafkaStreamExt;
 use crate::settings::Settings;
 use crate::stream_signal_ext::StreamSignalExt;
@@ -30,13 +30,13 @@ pub struct KafkaRocksDB {
 }
 
 impl KafkaRocksDB {
-    pub fn new(config: &Settings) -> KafkaRocksDBResult<KafkaRocksDB> {
+    pub fn new(config: &Settings) -> Result<KafkaRocksDB> {
         let consumer = KafkaConsumer::new(config)?;
         let db = Database::new(config)?;
         Ok(KafkaRocksDB { consumer, db })
     }
 
-    pub async fn start(&self) -> KafkaRocksDBResult<()> {
+    pub async fn start(&self) -> Result<()> {
         self.consumer
             .start()
             .map(|msg| {

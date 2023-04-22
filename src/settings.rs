@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-use crate::error::KafkaRocksDBResult;
+use anyhow::Result;
 use config::FileFormat;
 use serde::Deserialize;
 use std::collections::BTreeMap;
@@ -56,7 +56,7 @@ impl Settings {
         }
     }
 
-    pub fn read(filename: &str) -> KafkaRocksDBResult<Settings> {
+    pub fn read(filename: &str) -> Result<Settings> {
         let kafka_settings = Settings::delete_kafka_environment_settings();
         let config = config::Config::builder()
             .add_source(

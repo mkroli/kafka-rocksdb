@@ -14,35 +14,21 @@
  * limitations under the License.
  */
 
-use crate::error::KafkaRocksDBResult;
+use anyhow::Result;
 
-pub fn setup_logger(force_stdout: bool) -> KafkaRocksDBResult<()> {
-    let dispatcher = fern::Dispatch::new();
-
-    let dispatcher = if force_stdout || atty::is(atty::Stream::Stdout) {
-        dispatcher
-            .format(|out, message, record| {
-                out.finish(format_args!(
-                    "{} {} [{}] {}",
-                    chrono::Local::now().format("%Y-%m-%d %H:%M:%S"),
-                    record.level(),
-                    record.target(),
-                    message
-                ))
-            })
-            .level(log::LevelFilter::Info)
-            .chain(std::io::stdout())
-    } else {
-        let formatter = syslog::Formatter3164 {
-            facility: syslog::Facility::LOG_USER,
-            hostname: None,
-            process: env!("CARGO_PKG_NAME").into(),
-            pid: 0,
-        };
-        let syslog = syslog::unix(formatter)?;
-
-        dispatcher.chain(syslog)
-    };
-
-    Ok(dispatcher.apply()?)
+pub fn setup_logger() -> Result<()> {
+    fern::Dispatch::new()
+        .format(|out, message, record| {
+            out.finish(format_args!(
+                "{} {} [{}] {}",
+                chrono::Local::now().format("%Y-%m-%d %H:%M:%S"),
+                record.level(),
+                record.target(),
+                message
+            ))
+        })
+        .level(log::LevelFilter::Info)
+        .chain(std::io::stdout())
+        .apply()?;
+    Ok(())
 }

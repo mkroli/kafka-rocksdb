@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
+use anyhow::Result;
 use rdkafka::config::RDKafkaLogLevel;
 use rdkafka::consumer::{Consumer, DefaultConsumerContext, MessageStream, StreamConsumer};
 use rdkafka::ClientConfig;
 
-use crate::error::KafkaRocksDBResult;
 use crate::settings::Settings;
 
 pub struct KafkaConsumer {
@@ -38,7 +38,7 @@ fn kafka_client_config(config: &Settings) -> ClientConfig {
 }
 
 impl KafkaConsumer {
-    pub fn new(config: &Settings) -> KafkaRocksDBResult<KafkaConsumer> {
+    pub fn new(config: &Settings) -> Result<KafkaConsumer> {
         let consumer: StreamConsumer<DefaultConsumerContext> =
             kafka_client_config(config).create()?;
         let topics: Vec<&str> = config.topics.iter().map(|s| s.as_str()).collect();

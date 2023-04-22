@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-use std::error::Error;
-
+use anyhow::Result;
 use hyper::header::CONTENT_TYPE;
 use hyper::service::{make_service_fn, service_fn};
 use hyper::{Body, Method, Request, Response, Server, StatusCode};
 use prometheus::{Encoder, TextEncoder};
+use std::error::Error;
 
-use crate::error::KafkaRocksDBResult;
 use crate::settings::Settings;
 
 type GenericError = Box<dyn Error + Send + Sync>;
@@ -57,7 +56,7 @@ impl PrometheusExporter {
         })
     }
 
-    pub async fn start(config: &Settings) -> KafkaRocksDBResult<()> {
+    pub async fn start(config: &Settings) -> Result<()> {
         let addr = config.prometheus.address.parse()?;
         let service = make_service_fn(|_| async {
             Ok::<_, GenericError>(service_fn(PrometheusExporter::routes))
