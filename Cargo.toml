@@ -32,9 +32,9 @@ chrono = { version = "0.4", default-features = false, features = ["clock"] }
 fern = "0.6"
 clap = { version = "4", features = ["derive"] }
 config = "0.13"
-rdkafka = { version = "0.29", features = ["tokio", "cmake-build"] } # TODO: ssl
+rdkafka = { version = "0.31", features = ["tokio", "cmake-build"] } # TODO: ssl
 pin-project = "1"
-rocksdb = { version = "0.20", default-features = false, features = ["snappy"] }
+rocksdb = { version = "0.21", default-features = false, features = ["snappy"] }
 hex-slice = "0.1"
 prometheus = "0.13"
 lazy_static = "1"
