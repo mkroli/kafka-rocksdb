@@ -32,7 +32,7 @@ chrono = { version = "0.4", default-features = false, features = ["clock"] }
 fern = "0.6"
 clap = { version = "4", features = ["derive"] }
 config = "0.13"
-rdkafka = { version = "0.31", features = ["tokio", "cmake-build"] } # TODO: ssl
+rdkafka = { version = "0.34", features = ["tokio", "cmake-build"] } # TODO: ssl
 pin-project = "1"
 rocksdb = { version = "0.21", default-features = false, features = ["snappy"] }
 hex-slice = "0.1"
@@ -40,8 +40,8 @@ prometheus = "0.13"
 lazy_static = "1"
 prometheus-static-metric = "0.5"
 hyper = { version = "0.14", features = ["server", "tcp", "http1"] }
-apache-avro = { version = "0.14", optional = true }
-schema_registry_converter = { version = "3", default-features = false, features = ["avro", "blocking"], optional = true }
+apache-avro = { version = "0.16", optional = true }
+schema_registry_converter = { version = "4", default-features = false, features = ["avro", "blocking"], optional = true }
 
 [dev-dependencies]
 reqwest = { version = "0.11", features = ["blocking"] }
