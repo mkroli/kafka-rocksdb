@@ -15,53 +15,37 @@
  */
 
 use anyhow::Result;
-use hyper::header::CONTENT_TYPE;
-use hyper::service::{make_service_fn, service_fn};
-use hyper::{Body, Method, Request, Response, Server, StatusCode};
+use axum::http::StatusCode;
+use axum::response::{IntoResponse, Response};
+use axum::routing::get;
+use axum::Router;
+use axum_extra::headers::ContentType;
+use axum_extra::TypedHeader;
 use prometheus::{Encoder, TextEncoder};
-use std::error::Error;
+use std::net::SocketAddr;
+use tokio::net::TcpListener;
 
 use crate::settings::Settings;
-
-type GenericError = Box<dyn Error + Send + Sync>;
-type GenericResult<T> = std::result::Result<T, GenericError>;
 
 pub struct PrometheusExporter {}
 
 impl PrometheusExporter {
-    fn metrics() -> GenericResult<Response<Body>> {
+    async fn metrics() -> Response {
         let encoder = TextEncoder::new();
         let metric_families = prometheus::gather();
-        let mut buffer = vec![];
-        encoder.encode(&metric_families, &mut buffer)?;
-
-        let response = Response::builder()
-            .status(200)
-            .header(CONTENT_TYPE, encoder.format_type())
-            .body(Body::from(buffer))?;
-
-        Ok(response)
-    }
-
-    fn not_found() -> GenericResult<Response<Body>> {
-        Ok(Response::builder()
-            .status(StatusCode::NOT_FOUND)
-            .body("Not found".into())?)
-    }
-
-    async fn routes(req: Request<Body>) -> GenericResult<Response<Body>> {
-        Ok(match (req.method(), req.uri().path()) {
-            (&Method::GET, "/metrics") => PrometheusExporter::metrics()?,
-            _ => PrometheusExporter::not_found()?,
-        })
+        let mut result = vec![];
+        let result = match encoder.encode(&metric_families, &mut result) {
+            Ok(()) => Ok((TypedHeader(ContentType::text_utf8()), result)),
+            Err(_) => Err(StatusCode::INTERNAL_SERVER_ERROR),
+        };
+        result.into_response()
     }
 
     pub async fn start(config: &Settings) -> Result<()> {
-        let addr = config.prometheus.address.parse()?;
-        let service = make_service_fn(|_| async {
-            Ok::<_, GenericError>(service_fn(PrometheusExporter::routes))
-        });
-        let server = Server::bind(&addr).serve(service);
-        Ok(server.await?)
+        let addr: SocketAddr = config.prometheus.address.parse()?;
+        let app = Router::new().route("/metrics", get(PrometheusExporter::metrics));
+        let listener = TcpListener::bind(addr).await?;
+        axum::serve(listener, app).await?;
+        Ok(())
     }
 }
