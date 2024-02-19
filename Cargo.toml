@@ -34,7 +34,7 @@ clap = { version = "4", features = ["derive"] }
 config = "0.14"
 rdkafka = { version = "0.36", features = ["tokio", "cmake-build"] } # TODO: ssl
 pin-project = "1"
-rocksdb = { version = "0.21", default-features = false, features = ["snappy"] }
+rocksdb = { version = "0.22", default-features = false, features = ["snappy"] }
 hex-slice = "0.1"
 prometheus = "0.13"
 lazy_static = "1"
