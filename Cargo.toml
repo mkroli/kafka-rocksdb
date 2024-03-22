@@ -46,4 +46,4 @@ apache-avro = { version = "0.16", optional = true }
 schema_registry_converter = { version = "4", default-features = false, features = ["avro", "blocking"], optional = true }
 
 [dev-dependencies]
-reqwest = { version = "0.11", features = ["blocking"] }
+reqwest = { version = "0.12", features = ["blocking"] }
