@@ -153,20 +153,20 @@ jobs:
             latest=false
       - name: Create and push tag manifest
         run: |
-          docker manifest create \
-            ${{ steps.docker-meta.outputs.tags }} \
-            --amend ${{ steps.docker-meta.outputs.tags }}-x86_64-linux \
-            --amend ${{ steps.docker-meta.outputs.tags }}-aarch64-linux \
-            --amend ${{ steps.docker-meta.outputs.tags }}-armv7-linux
+          docker buildx imagetools create \
+            -t ${{ steps.docker-meta.outputs.tags }} \
+            ${{ steps.docker-meta.outputs.tags }}-x86_64-linux \
+            ${{ steps.docker-meta.outputs.tags }}-aarch64-linux \
+            ${{ steps.docker-meta.outputs.tags }}-armv7-linux
           docker manifest push \
             ${{ steps.docker-meta.outputs.tags }}
       - name: Create and push tag manifest (latest)
         run: |
-          docker manifest create \
-            ghcr.io/${{ github.repository }}:latest \
-            --amend ${{ steps.docker-meta.outputs.tags }}-x86_64-linux \
-            --amend ${{ steps.docker-meta.outputs.tags }}-aarch64-linux \
-            --amend ${{ steps.docker-meta.outputs.tags }}-armv7-linux
+          docker buildx imagetools create \
+            -t ghcr.io/${{ github.repository }}:latest \
+            ${{ steps.docker-meta.outputs.tags }}-x86_64-linux \
+            ${{ steps.docker-meta.outputs.tags }}-aarch64-linux \
+            ${{ steps.docker-meta.outputs.tags }}-armv7-linux
           docker manifest push \
             ghcr.io/${{ github.repository }}:latest
 
