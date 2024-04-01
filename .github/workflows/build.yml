@@ -158,8 +158,6 @@ jobs:
             ${{ steps.docker-meta.outputs.tags }}-x86_64-linux \
             ${{ steps.docker-meta.outputs.tags }}-aarch64-linux \
             ${{ steps.docker-meta.outputs.tags }}-armv7-linux
-          docker manifest push \
-            ${{ steps.docker-meta.outputs.tags }}
       - name: Create and push tag manifest (latest)
         run: |
           docker buildx imagetools create \
@@ -167,8 +165,6 @@ jobs:
             ${{ steps.docker-meta.outputs.tags }}-x86_64-linux \
             ${{ steps.docker-meta.outputs.tags }}-aarch64-linux \
             ${{ steps.docker-meta.outputs.tags }}-armv7-linux
-          docker manifest push \
-            ghcr.io/${{ github.repository }}:latest
 
   ghcr_cleanup:
     name: GHCR Cleanup
