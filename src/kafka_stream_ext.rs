@@ -89,17 +89,6 @@ impl<'a, S: ?Sized, E> KafkaStreamExt<'a> for S where
 }
 
 pub trait KafkaStreamExt<'a>: Stream {
-    fn store_offsets<C>(self, consumer: C) -> StoreOffsets<'a, Self>
-    where
-        Self: Sized,
-        C: Into<&'a StreamConsumer>,
-    {
-        StoreOffsets {
-            consumer: consumer.into(),
-            stream: self,
-        }
-    }
-
     fn try_store_offsets<C>(self, consumer: C) -> TryStoreOffsets<'a, Self>
     where
         Self: Sized,
