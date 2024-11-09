@@ -1253,7 +1253,7 @@ dependencies = [
 
 [[package]]
 name = "kafka-rocksdb"
-version = "0.2.20"
+version = "0.2.21"
 dependencies = [
  "anyhow",
  "apache-avro",
