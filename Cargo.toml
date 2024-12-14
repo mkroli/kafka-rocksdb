@@ -1,6 +1,6 @@
 [package]
 name = "kafka-rocksdb"
-version = "0.2.24"
+version = "0.2.25"
 authors = ["Michael Krolikowski <mkroli@yahoo.de>"]
 edition = "2021"
 
