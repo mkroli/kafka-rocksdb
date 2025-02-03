@@ -458,9 +458,9 @@ checksum = "5b63caa9aa9397e2d9480a9b13673856c78d8ac123288526c37d7839f2a86990"
 
 [[package]]
 name = "config"
-version = "0.15.6"
+version = "0.15.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e329294a796e9b22329669c1f433a746983f9e324e07f4ef135be81bb2262de4"
+checksum = "e26695492a475c4a091cfda61446d5ba01aac2e1dfbcd27a12fdd11aa2e32596"
 dependencies = [
  "async-trait",
  "convert_case",
@@ -471,7 +471,7 @@ dependencies = [
  "serde",
  "serde_json",
  "toml",
- "winnow",
+ "winnow 0.7.1",
  "yaml-rust2",
 ]
 
@@ -2494,7 +2494,7 @@ dependencies = [
  "serde",
  "serde_spanned",
  "toml_datetime",
- "winnow",
+ "winnow 0.6.24",
 ]
 
 [[package]]
@@ -2877,6 +2877,15 @@ name = "winnow"
 version = "0.6.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c8d71a593cc5c42ad7876e2c1fda56f314f3754c084128833e64f1345ff8a03a"
+dependencies = [
+ "memchr",
+]
+
+[[package]]
+name = "winnow"
+version = "0.7.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "86e376c75f4f43f44db463cf729e0d3acbf954d13e22c51e26e4c264b4ab545f"
 dependencies = [
  "memchr",
 ]
