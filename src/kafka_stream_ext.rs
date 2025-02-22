@@ -16,14 +16,14 @@
 
 use std::pin::Pin;
 
-use futures::task::{Context, Poll};
 use futures::Stream;
+use futures::task::{Context, Poll};
 use pin_project::pin_project;
+use rdkafka::Message;
 use rdkafka::consumer::Consumer;
 use rdkafka::consumer::StreamConsumer;
 use rdkafka::error::KafkaError;
 use rdkafka::message::BorrowedMessage;
-use rdkafka::Message;
 
 #[pin_project]
 pub struct StoreOffsets<'a, T>

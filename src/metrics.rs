@@ -15,7 +15,7 @@
  */
 
 use lazy_static::lazy_static;
-use prometheus::{opts, register_int_counter, IntCounter};
+use prometheus::{IntCounter, opts, register_int_counter};
 
 lazy_static! {
     pub static ref MESSAGES: IntCounter =

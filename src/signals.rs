@@ -17,7 +17,7 @@
 use std::pin::Pin;
 
 use futures::task::{Context, Poll};
-use futures::{pin_mut, Future, Stream};
+use futures::{Future, Stream, pin_mut};
 use tokio::signal::unix::{Signal, SignalKind};
 
 pub struct Signals {

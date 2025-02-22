@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-use futures::channel::oneshot;
-use futures::stream::TakeUntil;
 use futures::Stream;
 use futures::StreamExt;
+use futures::channel::oneshot;
+use futures::stream::TakeUntil;
 use tokio::signal::unix::SignalKind;
 
 use crate::signals::signals;
 
 #[cfg(unix)]
 async fn termination_signal() -> std::io::Result<()> {
-    signals(&[SignalKind::interrupt(), SignalKind::terminate()])?
-        .into_future()
-        .await;
+    StreamExt::into_future(signals(&[
+        SignalKind::interrupt(),
+        SignalKind::terminate(),
+    ])?)
+    .await;
     Ok(())
 }
 

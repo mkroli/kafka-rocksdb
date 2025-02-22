@@ -15,12 +15,12 @@
  */
 
 use anyhow::Result;
+use axum::Router;
 use axum::http::StatusCode;
 use axum::response::{IntoResponse, Response};
 use axum::routing::get;
-use axum::Router;
-use axum_extra::headers::ContentType;
 use axum_extra::TypedHeader;
+use axum_extra::headers::ContentType;
 use prometheus::{Encoder, TextEncoder};
 use std::net::SocketAddr;
 use tokio::net::TcpListener;

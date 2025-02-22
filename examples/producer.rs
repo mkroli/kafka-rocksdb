@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use apache_avro::types::Value;
 use clap::{ArgGroup, Parser};
-use rdkafka::producer::{FutureProducer, FutureRecord};
 use rdkafka::ClientConfig;
+use rdkafka::producer::{FutureProducer, FutureRecord};
 use schema_registry_converter::blocking::avro::AvroEncoder;
 use schema_registry_converter::blocking::schema_registry::SrSettings;
 use schema_registry_converter::schema_registry_common::SubjectNameStrategy;

@@ -42,17 +42,18 @@ impl KafkaRocksDB {
             .map(|msg| {
                 let msg = msg?;
                 crate::metrics::MESSAGES.inc();
-                if let Some(key) = msg.key() {
-                    match self.db.update(msg.topic(), key, msg.payload()) {
+                match msg.key() {
+                    Some(key) => match self.db.update(msg.topic(), key, msg.payload()) {
                         Ok(_) => Ok(msg),
                         Err(e) => {
                             log::error!("Failed to update RocksDB: {}", e);
                             Err(e)
                         }
+                    },
+                    _ => {
+                        log::error!("Ignoring message without key: {:?}", msg);
+                        Ok(msg)
                     }
-                } else {
-                    log::error!("Ignoring message without key: {:?}", msg);
-                    Ok(msg)
                 }
             })
             .try_store_offsets(&self.consumer)

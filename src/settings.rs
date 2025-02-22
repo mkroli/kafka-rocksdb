@@ -38,11 +38,10 @@ pub struct Settings {
 }
 
 impl Settings {
-    fn delete_kafka_environment_settings() -> BTreeMap<String, String> {
+    fn get_kafka_environment_settings() -> BTreeMap<String, String> {
         let mut kafka_settings = BTreeMap::new();
         for (ref k, v) in std::env::vars() {
             if let Some(key) = k.strip_prefix("KR_KAFKA_") {
-                std::env::remove_var(k);
                 let key = key.replace('_', ".").to_lowercase();
                 kafka_settings.insert(key, v);
             }
@@ -57,7 +56,7 @@ impl Settings {
     }
 
     pub fn read(filename: &str) -> Result<Settings> {
-        let kafka_settings = Settings::delete_kafka_environment_settings();
+        let kafka_settings = Settings::get_kafka_environment_settings();
         let config = config::Config::builder()
             .add_source(
                 config::File::with_name(filename)

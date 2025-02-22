@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use clap::{ArgGroup, Parser};
 use hex_slice::AsHex;
-use rocksdb::{IteratorMode, Options, DB};
+use rocksdb::{DB, IteratorMode, Options};
 
 use kafka_rocksdb::logging::setup_logger;
 use schema_registry_converter::blocking::avro::AvroDecoder;

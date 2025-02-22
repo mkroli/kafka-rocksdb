@@ -15,9 +15,9 @@
  */
 
 use anyhow::Result;
+use rdkafka::ClientConfig;
 use rdkafka::config::RDKafkaLogLevel;
 use rdkafka::consumer::{Consumer, DefaultConsumerContext, MessageStream, StreamConsumer};
-use rdkafka::ClientConfig;
 
 use crate::settings::Settings;
 

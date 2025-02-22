@@ -15,7 +15,7 @@
  */
 
 use crate::settings::Settings;
-use anyhow::{anyhow, Result};
+use anyhow::{Result, anyhow};
 use rocksdb::DB;
 
 pub struct Database {
