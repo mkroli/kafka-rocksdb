@@ -46,12 +46,12 @@ impl KafkaRocksDB {
                     Some(key) => match self.db.update(msg.topic(), key, msg.payload()) {
                         Ok(_) => Ok(msg),
                         Err(e) => {
-                            log::error!("Failed to update RocksDB: {}", e);
+                            log::error!("Failed to update RocksDB: {e}");
                             Err(e)
                         }
                     },
                     _ => {
-                        log::error!("Ignoring message without key: {:?}", msg);
+                        log::error!("Ignoring message without key: {msg:?}");
                         Ok(msg)
                     }
                 }
