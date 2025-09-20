@@ -116,6 +116,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "apache-avro"
+version = "0.20.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3a033b4ced7c585199fb78ef50fca7fe2f444369ec48080c5fd072efa1a03cc7"
+dependencies = [
+ "bigdecimal",
+ "bon",
+ "digest",
+ "log",
+ "miniz_oxide",
+ "num-bigint",
+ "quad-rand",
+ "rand",
+ "regex-lite",
+ "serde",
+ "serde_bytes",
+ "serde_json",
+ "strum",
+ "strum_macros",
+ "thiserror 2.0.16",
+ "uuid",
+]
+
+[[package]]
 name = "arraydeque"
 version = "0.5.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1301,7 +1325,7 @@ name = "kafka-rocksdb"
 version = "0.3.9"
 dependencies = [
  "anyhow",
- "apache-avro",
+ "apache-avro 0.20.0",
  "axum",
  "axum-extra",
  "chrono",
@@ -2110,7 +2134,7 @@ version = "4.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a88502ff545fb0501e0418f06e58936667b1bf99c15b4c7cdd769a917de6c3a2"
 dependencies = [
- "apache-avro",
+ "apache-avro 0.19.0",
  "byteorder",
  "dashmap",
  "reqwest",
